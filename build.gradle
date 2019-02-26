@@ -3,7 +3,8 @@
 buildscript {
     repositories {
         jcenter()
-        google()
+       //google()
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
         //gradle插件，需要和gradle版本对应上
@@ -17,6 +18,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
 }
 
