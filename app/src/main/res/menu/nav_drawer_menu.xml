@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/all_note"
+            android:title="全部记事"
+            android:icon="@drawable/ic_nv_drawer_all"/>
+    </group>
+<item android:title="其他">
+    <menu>
+        <item android:id="@id/share"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="分享"/>
+        <item android:id="@id/about"
+            android:icon="@drawable/ic_nv_drawer_about"
+            android:title="关于"/>
+    </menu>
+</item>
+
+</menu>
