@@ -4,7 +4,7 @@ android {
     //安卓编译版本
     compileSdkVersion 26
     //安卓构建工具版本
-    buildToolsVersion "26.0.3"
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.feiya.me.notewidget"
