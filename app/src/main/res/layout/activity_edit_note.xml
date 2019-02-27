@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@color/edit_note_background"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:divider="@drawable/dividerline"
-    android:showDividers="middle"
+
     >
     <EditText
         android:id="@+id/edit_note_title"
         android:layout_width="match_parent"
         android:layout_height="50sp"
-        android:text="title"
+        android:textStyle="bold"
+        android:hint="输入标题"
         android:gravity="center_horizontal|center_vertical"
-        android:background="@color/edit_note_title_color"
-        android:textSize="22sp"
+        android:background="@color/edit_note_background"
+        android:textSize="18sp"
         android:textColor="@color/note_text_color"/>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <EditText
         android:id="@+id/edit_note_content"
+        android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="9dp"
+        android:paddingTop="5dp"
+        android:paddingRight="7dp"
+        android:maxLines="100"
         android:text="@string/edit_note_init"
         android:background="@color/edit_note_background"
-        android:textSize="22sp"
+        android:textSize="15sp"
         android:textColor="@color/note_text_color"/>
 </LinearLayout>
