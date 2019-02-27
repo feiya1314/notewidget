@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.feiya.me.notewidget.activity.EditNoteActivity;
 import com.feiya.me.notewidget.db.DatabaseManager;
 import com.feiya.me.notewidget.model.NoteItem;
+import com.feiya.me.notewidget.service.AdapterViewFlipperService;
 import com.feiya.me.notewidget.utils.DateToStringUtils;
 
 import java.util.Date;
@@ -45,7 +47,7 @@ public class NoteWidgetProvider extends AppWidgetProvider {
             initWidgetDatabase(context,appWidgetManager,appWidgetId);
 
             RemoteViews remoteViews=new RemoteViews(context.getPackageName(),R.layout.adapterviewfilpper);
-            Intent viewFlipperServiceIntent=new Intent(context,AdapterViewFlipperService.class);
+            Intent viewFlipperServiceIntent=new Intent(context, AdapterViewFlipperService.class);
             viewFlipperServiceIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             viewFlipperServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
             remoteViews.setRemoteAdapter(R.id.page_flipper,viewFlipperServiceIntent);
@@ -185,7 +187,7 @@ public class NoteWidgetProvider extends AppWidgetProvider {
             widgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID);
             Log.e(TAG,"receive collection action widgetId "+widgetId);
 
-            Intent startActivity=new Intent(context,EditNoteActivity.class);
+            Intent startActivity=new Intent(context, EditNoteActivity.class);
             startActivity.putExtra(PAGE_ID,pageId);
             startActivity.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetId);
             //由于不是在activity中启动另一个activity，而是由context启动，需要设置FLAG_ACTIVITY_NEW_TASK标志
