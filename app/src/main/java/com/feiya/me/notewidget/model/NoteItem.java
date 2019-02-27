@@ -1,4 +1,4 @@
-package com.feiya.me.notewidget;
+package com.feiya.me.notewidget.model;
 
 import java.util.Date;
 
@@ -8,10 +8,13 @@ import java.util.Date;
 public class NoteItem {
 
     private String content;
-    private Date writingDate;
+    private String writingDate;
     private String title;
     private int pageId;
     private int favorite=0;
+    private int widgetId;
+    private int changedFlag=0;
+
 
     public NoteItem(){
 
@@ -35,18 +38,18 @@ public class NoteItem {
         this.content = content;
     }
 
-    public Date getWritingDate() {
+    public String getWritingDate() {
         return writingDate;
     }
 
-    public void setWritingDate(Date writingDate) {
+    public void setWritingDate(String writingDate) {
         this.writingDate = writingDate;
     }
-    public int getId(){
+    public int getPageId(){
         return pageId;
     }
 
-    public void setId(int id) {
+    public void setPageId(int id) {
         this.pageId = id;
     }
 
@@ -56,5 +59,21 @@ public class NoteItem {
 
     public int getFavorite() {
         return favorite;
+    }
+
+    public void setWidgetId(int widgetId){
+        this.widgetId=widgetId;
+    }
+
+    public int getWidgetId(){
+        return this.widgetId;
+    }
+
+    public int getChangedFlag() {
+        return changedFlag;
+    }
+
+    public void setChangedFlag(int changedFlag) {
+        this.changedFlag = changedFlag;
     }
 }
