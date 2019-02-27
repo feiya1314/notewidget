@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.feiya.me.notewidget">
 
     <application
         android:allowBackup="true"
+        android:enabled="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".NoteWidgetProvider">
-            <intent-filter>
+        <receiver
+            android:name=".NoteWidgetProvider"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.feiya.me.notewidget.COLLECTION_VIEW_ACTION" />
                 <action android:name="com.feiya.me.notewidget.NEXT_ACTION" />
+                <action android:name="com.feiya.me.notewidget.PREVIOUS_ACTION" />
+                <action android:name="com.feiya.me.notewidget.DATA_CHANGED_ACTION" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
 
             <meta-data
@@ -24,10 +32,23 @@
             android:name=".EditNoteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_edit_note"
-            android:theme="@style/FullscreenTheme"></activity>
-        <service android:name=".AdapterViewFlipperService"
-            android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS"></service>
+            android:theme="@style/FullscreenTheme" />
+
+        <service
+            android:name=".AdapterViewFlipperService"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
