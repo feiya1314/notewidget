@@ -14,11 +14,11 @@ import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String TAG =DatabaseHelper.class.getSimpleName();
-    private static final int DATABASE_VERSION=1;
-    private static final String DATABASE_NAME="NoteWidget.db";
-    public static final String TABLE_NAME="note";
-    public static final  String CREATE_NOTE_TABLE="create table note ("
+    private static final String TAG = DatabaseHelper.class.getSimpleName();
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "NoteWidget.db";
+    public static final String TABLE_NAME = "note";
+    public static final String CREATE_NOTE_TABLE = "create table note ("
             + "id integer primary key autoincrement,"
             + "pageId integer,"
             + "title text,"
@@ -29,8 +29,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "writingDate text)";
 
     private Context mContext;
-    public DatabaseHelper(Context context){
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 
@@ -49,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        mContext=context;
+        mContext = context;
     }
 
     /**
@@ -70,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
-        mContext=context;
+        mContext = context;
     }
     /**
      * Create and/or open a database.  This will be the same object returned by
@@ -101,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_NOTE_TABLE);
         //Toast.makeText(mContext,"you have create notetable",Toast.LENGTH_SHORT).show();
-        Log.d(TAG,"database is created");
+        Log.d(TAG, "database is created");
     }
 
     /**
@@ -152,13 +153,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * from {@link ContentProvider#onCreate ContentProvider.onCreate()}.
      *
      * @return a read/write database object valid until {@link #close} is called
-     * @throws  ..SQLiteException if the database cannot be opened for writing
+     * @throws ..SQLiteException if the database cannot be opened for writing
      */
     @Override
     public SQLiteDatabase getWritableDatabase() {
         return super.getWritableDatabase();
     }
-
 
 
     /**

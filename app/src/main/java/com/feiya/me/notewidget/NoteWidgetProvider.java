@@ -13,7 +13,7 @@ import com.feiya.me.notewidget.activity.EditNoteActivity;
 import com.feiya.me.notewidget.db.DatabaseManager;
 import com.feiya.me.notewidget.model.NoteItem;
 import com.feiya.me.notewidget.service.AdapterViewFlipperService;
-import com.feiya.me.notewidget.utils.DateToStringUtils;
+import com.feiya.me.notewidget.utils.Utils;
 
 import java.util.Date;
 
@@ -245,7 +245,7 @@ public class NoteWidgetProvider extends AppWidgetProvider {
                     noteItem.setFavorite(1);
                 }
                 noteItem.setWidgetId(widgetId);
-                noteItem.setWritingDate(DateToStringUtils.dateToString(new Date(System.currentTimeMillis())));
+                noteItem.setWritingDate(Utils.dateToString(new Date(System.currentTimeMillis())));
                 databaseManager.addItem(noteItem);
                 //databaseManager.closeDB();
             }

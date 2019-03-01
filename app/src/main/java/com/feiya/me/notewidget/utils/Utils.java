@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by feiya on 2016/9/30.
  */
 
-public class DateToStringUtils {
+public class Utils {
     public static String dateToString(Date date){
         DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);

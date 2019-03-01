@@ -12,7 +12,7 @@ import com.feiya.me.notewidget.NoteWidgetProvider;
 import com.feiya.me.notewidget.R;
 import com.feiya.me.notewidget.db.DatabaseManager;
 import com.feiya.me.notewidget.model.NoteItem;
-import com.feiya.me.notewidget.utils.DateToStringUtils;
+import com.feiya.me.notewidget.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -150,13 +150,13 @@ public class AdapterViewFlipperService extends RemoteViewsService {
         @Override
         public void onCreate() {
             Log.e(TAG,"onCreatedebug");
-            Log.e(TAG, DateToStringUtils.dateToString(new Date(System.currentTimeMillis())));
+            Log.e(TAG, Utils.dateToString(new Date(System.currentTimeMillis())));
                 for(int i=0;i<pagesCount;i++){
                     NoteItem noteItem=new NoteItem("喂！我是标题");
                     noteItem.setContent("小提示：可通过底部左右箭头翻页！");
                     noteItem.setPageId(i);
                     noteItem.setWidgetId(0);
-                    noteItem.setWritingDate(DateToStringUtils.dateToString(new Date(System.currentTimeMillis())));
+                    noteItem.setWritingDate(Utils.dateToString(new Date(System.currentTimeMillis())));
                     noteItems.add(noteItem);
                     Log.d(TAG,noteItems.get(i).getContent());
             }
