@@ -1,11 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">桌面备忘录</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="app_name" translatable="false">桌面备忘录</string>
+    <string name="appwidget_text" translatable="false">EXAMPLE</string>
+    <string name="add_widget" translatable="false">Add widget</string>
 
-    <string name="title_activity_edit_note">EditNoteActivity</string>
+    <string name="title_activity_edit_note" translatable="false">EditNoteActivity</string>
     <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
     <string name="edit_note_init">edit your note here </string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="left_right_dot">●  ●  ●</string>
 </resources>

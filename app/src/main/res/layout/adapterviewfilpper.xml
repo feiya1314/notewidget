@@ -21,6 +21,17 @@
         android:layout_weight="0.02">
 
         <TextView
+            android:text="@string/left_right_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/current_page"
+            android:layout_marginEnd="25dp"
+            android:textSize="4sp"
+            android:textColor="@color/note_text_color"
+            android:id="@+id/left_point" />
+
+        <TextView
             android:text="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,27 +41,15 @@
             android:layout_centerHorizontal="true" />
 
         <TextView
-            android:text="●  ●  ●"
+            android:text="@string/left_right_dot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/current_page"
-            android:layout_marginRight="25dp"
-            android:textSize="4sp"
-            android:textColor="@color/note_text_color"
-            android:id="@+id/left_point" />
-
-
-        <TextView
-            android:text="●  ●  ●"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:id="@+id/right_point"
             android:textColor="@color/note_text_color"
             android:layout_centerVertical="true"
             android:textSize="4sp"
-            android:layout_toRightOf="@+id/current_page"/>
+            android:layout_toEndOf="@+id/current_page"/>
 
         <ImageButton
             android:id="@+id/previous"
