@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.feiya.me.notewidget"
         //最小支持版本
-        minSdkVersion 25
+        minSdkVersion 24
         //目标版本，最大支持版本
         targetSdkVersion 26
         versionCode 1
