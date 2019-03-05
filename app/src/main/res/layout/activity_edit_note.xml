@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/edit_note_background"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-
-    >
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@id/save_edit_content"
+        android:layout_width="wrap_content"
+        android:layout_height="30.0dip"
+        android:layout_gravity="right">
+        <Button
+            android:id="@id/save"
+            android:layout_width="50.0dip"
+            android:layout_height="wrap_content"
+            android:background="@color/edit_note_background"
+            android:gravity="bottom|center"
+            android:text="保存"
+            android:textColor="@color/button_save_text_color"
+            android:textSize="15.0sp" />
+    </LinearLayout>
     <EditText
-        android:id="@+id/edit_note_title"
-        android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:textStyle="bold"
-        android:hint="输入标题"
-        android:gravity="center_horizontal|center_vertical"
+        android:id="@id/edit_note_title"
+        android:layout_width="fill_parent"
+        android:layout_height="50.0sp"
         android:background="@color/edit_note_background"
-        android:textSize="18sp"
-        android:textColor="@color/note_text_color"/>
+        android:gravity="center"
+        android:hint="输入标题"
+        android:textColor="@color/note_text_color"
+        android:textSize="18.0sp"
+        android:textStyle="bold" />
     <View
         android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="@color/colorDivider"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
-
+        android:layout_height="1.0dip"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:background="@color/colorDivider" />
     <EditText
-        android:id="@+id/edit_note_content"
-        android:gravity="top"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="9dp"
-        android:paddingTop="5dp"
-        android:paddingRight="7dp"
-        android:maxLines="100"
-        android:text="@string/edit_note_init"
+        android:id="@id/edit_note_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="@color/edit_note_background"
-        android:textSize="15sp"
-        android:textColor="@color/note_text_color"/>
+        android:gravity="top"
+        android:maxLines="100"
+        android:paddingLeft="10.0dip"
+        android:paddingTop="10.0dip"
+        android:paddingRight="10.0dip"
+        android:text="@string/edit_note_init"
+        android:textColor="@color/note_text_color"
+        android:textSize="15.0sp" />
 </LinearLayout>
