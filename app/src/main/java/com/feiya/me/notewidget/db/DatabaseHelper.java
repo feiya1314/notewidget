@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.feiya.me.notewidget.Constant;
+
 /**
  * Created by feiya on 2016/9/24.
  */
@@ -31,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Context mContext;
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, Constant.DATABASE_NAME, null, Constant.DATABASE_VERSION);
     }
 
 
@@ -95,12 +97,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Called when the database is created for the first time. This is where the
      * creation of tables and the initial population of the tables should happen.
-     *
+     * 该方法没有数据库存在才会执行
      * @param db The database.
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_NOTE_TABLE);
+        db.execSQL(Constant.CREATE_NOTE_TABLE);
         //Toast.makeText(mContext,"you have create notetable",Toast.LENGTH_SHORT).show();
         Log.d(TAG, "database is created");
     }
