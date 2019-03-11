@@ -22,6 +22,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    //避免manifest 文件报 App is not indexable by Google Search
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
 }
 
 dependencies {
