@@ -133,7 +133,7 @@ public class NoteWidgetProvider extends AppWidgetProvider {
     /**
      * Implements { BroadcastReceiver#onReceive} to dispatch calls to the various
      * other methods on AppWidgetProvider.
-     *
+     * 接收窗口小部件点击时发送的广播
      * @param context The Context in which the receiver is running.
      * @param intent  The Intent being received.
      */
