@@ -5,6 +5,9 @@ buildscript {
         jcenter()
        //google()
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven{ url 'http://repo1.maven.org/maven2/'}
+        google()
+        /*maven { url 'http://maven.oschina.net/content/groups/public/' }*/
     }
     dependencies {
         //gradle插件，需要和gradle版本对应上
@@ -19,6 +22,9 @@ allprojects {
     repositories {
         jcenter()
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        /*maven { url 'http://maven.oschina.net/content/groups/public/' }*/
+        maven{ url 'http://repo1.maven.org/maven2/'}
+        google()
     }
 }
 

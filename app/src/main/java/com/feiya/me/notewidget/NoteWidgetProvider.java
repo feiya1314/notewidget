@@ -69,6 +69,7 @@ public class NoteWidgetProvider extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.previous,prePendingIntent);
 
             Intent flipperIntent=new Intent();
+            flipperIntent.setComponent(new ComponentName(context,NoteWidgetProvider.class));
             flipperIntent.setAction(COLLECTION_VIEW_ACTION);
             flipperIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             flipperIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);

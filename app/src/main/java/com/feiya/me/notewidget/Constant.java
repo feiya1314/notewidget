@@ -1,6 +1,7 @@
 package com.feiya.me.notewidget;
 
 public interface Constant {
+
     int DATABASE_VERSION = 1;
     String DATABASE_NAME = "NoteWidget.db";
     String TABLE_NAME = "note";
@@ -13,4 +14,11 @@ public interface Constant {
             + "favorite integer,"
             + "changedFlag integer,"
             + "writingDate text)";
+
+    String NEXT_ACTION="com.feiya.me.notewidget.NEXT_ACTION";
+    String PREVIOUS_ACTION="com.feiya.me.notewidget.PREVIOUS_ACTION";
+    String COLLECTION_VIEW_ACTION="com.feiya.me.notewidget.COLLECTION_VIEW_ACTION";
+    String COLLECTION_VIEW_EXTRA="com.feiya.me.notewidget.COLLECTION_VIEW_EXTRA";
+    String PAGE_ID="com.feiya.me.notewidget.PAGE_ID";
+    String DATA_CHANGED_ACTION="com.feiya.me.notewidget.DATA_CHANGED_ACTION";
 }

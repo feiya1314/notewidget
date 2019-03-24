@@ -37,9 +37,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.EditNoteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_edit_note"
+            android:theme="@style/FullscreenTheme" />
+
         <service android:name=".service.AdapterViewFlipperService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false"
+            android:exported="true"
             android:enabled="true"/>
     </application>
 

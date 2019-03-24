@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.feiya.me.notewidget.Constant;
 import com.feiya.me.notewidget.model.NoteItem;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class DatabaseManager {
         contentValues.put("favorite", noteItem.getFavorite());
         Log.d(TAG, "favorite " + noteItem.getFavorite());
 
-        db.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
+        db.insert(Constant.TABLE_NAME, null, contentValues);
     }
 
     /**
@@ -61,50 +62,50 @@ public class DatabaseManager {
         contentValues.put("content", noteItem.getContent());
         contentValues.put("writingDate", noteItem.getWritingDate());
         Log.d(TAG, "updateItem" + pageId);
-        db.update(DatabaseHelper.TABLE_NAME, contentValues, "pageId=? ", new String[]{String.valueOf(pageId)});
+        db.update(Constant.TABLE_NAME, contentValues, "pageId=? ", new String[]{String.valueOf(pageId)});
     }
 
     public void updateTitle(int widgetId, int pageId, String title) {
-        String sql = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET title='" + title +
+        String sql = "UPDATE " + Constant.TABLE_NAME + " SET title='" + title +
                 "' WHERE pageId=" + pageId + " AND widgetId=" + widgetId;
         db.execSQL(sql);
     }
 
     public void updateContent(int widgetId, int pageId, String content) {
-        String sql = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET content='" + content +
+        String sql = "UPDATE " + Constant.TABLE_NAME + " SET content='" + content +
                 "' WHERE pageId=" + pageId + " AND widgetId=" + widgetId;
         db.execSQL(sql);
     }
 
     public void changedFlagToFalse() {
-        String sql = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET changedFlag=0 WHERE changedFlag=1";
+        String sql = "UPDATE " + Constant.TABLE_NAME + " SET changedFlag=0 WHERE changedFlag=1";
         db.execSQL(sql);
     }
 
     public void changedFlagToTrue(int widgetId, int pageId) {
-        String sql = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET changedFlag=1 WHERE widgetId=" + widgetId + " AND pageId=" + pageId;
+        String sql = "UPDATE " + Constant.TABLE_NAME + " SET changedFlag=1 WHERE widgetId=" + widgetId + " AND pageId=" + pageId;
         db.execSQL(sql);
     }
 
     public Cursor queryTopPageItem(int widgetId) {
-        String sql = "SELECT * FROM " + DatabaseHelper.TABLE_NAME + " WHERE widgetId=" + widgetId + " AND favorite=1";
+        String sql = "SELECT * FROM " + Constant.TABLE_NAME + " WHERE widgetId=" + widgetId + " AND favorite=1";
         Log.d(TAG, "queryTopPageItem ");
         return db.rawQuery(sql, null);
     }
 
     public void topPageToTrue(int widgetId, int pageId) {
-        String sql = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET favorite=1 WHERE widgetId=" + widgetId + " AND pageId=" + pageId;
+        String sql = "UPDATE " + Constant.TABLE_NAME + " SET favorite=1 WHERE widgetId=" + widgetId + " AND pageId=" + pageId;
         db.execSQL(sql);
     }
 
     public void topPageToFalse(int widgetId) {
-        String sql = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET favorite=0 WHERE widgetId=" + widgetId + " AND favorite=1";
+        String sql = "UPDATE " + Constant.TABLE_NAME + " SET favorite=0 WHERE widgetId=" + widgetId + " AND favorite=1";
         db.execSQL(sql);
     }
 
     public void topPageInit() {
-        String sql_1 = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET favorite=0 WHERE favorite=1";
-        String sql_2 = "UPDATE " + DatabaseHelper.TABLE_NAME + " SET favorite=1 WHERE pageId=0";
+        String sql_1 = "UPDATE " + Constant.TABLE_NAME + " SET favorite=0 WHERE favorite=1";
+        String sql_2 = "UPDATE " + Constant.TABLE_NAME + " SET favorite=1 WHERE pageId=0";
         db.execSQL(sql_1);
         db.execSQL(sql_2);
 
@@ -163,7 +164,7 @@ public class DatabaseManager {
     }
 
     public Cursor queryChangedItem() {
-        String sql = "SELECT * FROM " + DatabaseHelper.TABLE_NAME + " WHERE changedFlag=1";
+        String sql = "SELECT * FROM " + Constant.TABLE_NAME + " WHERE changedFlag=1";
         Log.d("datamagager", sql);
         Log.d(TAG, "queryItem  " + sql);
 
@@ -171,12 +172,12 @@ public class DatabaseManager {
     }
 
     public void deleteItemsByWidgetId(int widgetId) {
-        String sql = "DELETE FROM " + DatabaseHelper.TABLE_NAME + " WHERE widgetId=" + widgetId;
+        String sql = "DELETE FROM " + Constant.TABLE_NAME + " WHERE widgetId=" + widgetId;
         db.execSQL(sql);
     }
 
     public Cursor queryItem(int widgetId, int pageId) {
-        String sql = "SELECT * FROM " + DatabaseHelper.TABLE_NAME + " WHERE pageId=" + pageId + " AND widgetId=" + widgetId;
+        String sql = "SELECT * FROM " + Constant.TABLE_NAME + " WHERE pageId=" + pageId + " AND widgetId=" + widgetId;
         Log.d("datamagager", sql);
         Log.d(TAG, "queryItem  " + sql);
 
@@ -184,7 +185,7 @@ public class DatabaseManager {
     }
 
     public Cursor queryItemByWidgetId(int widgetId) {
-        String sql = "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+        String sql = "SELECT * FROM " + Constant.TABLE_NAME
                 + " WHERE widgetId="
                 + widgetId;
         return db.rawQuery(sql, null);

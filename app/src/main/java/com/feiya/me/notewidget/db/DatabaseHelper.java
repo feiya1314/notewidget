@@ -17,18 +17,6 @@ import com.feiya.me.notewidget.Constant;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = DatabaseHelper.class.getSimpleName();
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "NoteWidget.db";
-    public static final String TABLE_NAME = "note";
-    public static final String CREATE_NOTE_TABLE = "create table note ("
-            + "id integer primary key autoincrement,"
-            + "pageId integer,"
-            + "title text,"
-            + "widgetId integer,"
-            + "content text,"
-            + "favorite integer,"
-            + "changedFlag integer,"
-            + "writingDate text)";
 
     private Context mContext;
 

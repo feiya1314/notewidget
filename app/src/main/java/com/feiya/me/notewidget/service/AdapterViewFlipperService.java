@@ -23,35 +23,30 @@ import java.util.Date;
 public class AdapterViewFlipperService extends RemoteViewsService {
     private Context mContext;
     private int mWidgetId;
-    private static final String TAG=AdapterViewFlipperService.class.getSimpleName();
-    private static final int pagesCount=10;
-    private ArrayList<NoteItem> noteItems=new ArrayList<NoteItem>();
+    private static final String TAG = AdapterViewFlipperService.class.getSimpleName();
+    private static final int pagesCount = 10;
+    private ArrayList<NoteItem> noteItems = new ArrayList<NoteItem>();
     private DatabaseManager databaseManager;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        Log.e(TAG,"onGetViewFactory");
-        return new FlipperViewFactory(this,intent);
+        Log.e(TAG, "onGetViewFactory");
+        return new FlipperViewFactory(this, intent);
     }
-    private class FlipperViewFactory implements RemoteViewsFactory{
-       private boolean isReboot=false;
-      //  private int witchWidgetUpdate=0;
-       /// private int updateWidgetPostion=0;
-        private int widgetNum;
-        public FlipperViewFactory(Context context,Intent intent){
-            mContext=context;
-            mWidgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID);
-            Log.e("service widgetid ",String.valueOf(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,521)));
-            //Log.e(TAG,"Factory "+mWidgetIds[0]+" "+mWidgetIds[1] +" "+mWidgetIds[2] );
-            //widgetNum=mWidgetIds.length;
-           // Log.e("widgetNum",String.valueOf(widgetNum));
 
-            databaseManager=new DatabaseManager(mContext);
+    private class FlipperViewFactory implements RemoteViewsFactory {
+        private boolean isReboot = false;
+
+        public FlipperViewFactory(Context context, Intent intent) {
+            mContext = context;
+            mWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            Log.e("service widgetid ", String.valueOf(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 521)));
+
+            databaseManager = new DatabaseManager(mContext);
 
         }
+
         /**
-         *
-         *
          * @return Count of items.
          */
         @Override
@@ -60,8 +55,6 @@ public class AdapterViewFlipperService extends RemoteViewsService {
         }
 
         /**
-         *
-         *
          * @param position The position of the item within the data set whose row id we want.
          * @return The id of the item at the specified position.
          */
@@ -83,8 +76,6 @@ public class AdapterViewFlipperService extends RemoteViewsService {
         }
 
         /**
-         *
-         * <p>
          * Note: expensive tasks can be safely performed synchronously within this method, and a
          * loading view will be displayed in the interim. See {@link #getLoadingView()}.
          *
@@ -94,21 +85,16 @@ public class AdapterViewFlipperService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getViewAt(int position) {
-            Log.e(TAG,"getView "+position);
+            Log.e(TAG, "getView " + position);
 
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notepage1);
 
-            if(isReboot){
+            if (isReboot) {
                 //witchWidgetUpdate=mWidgetIds[updateWidgetPostion];
                 //Log.e("witchWidgetUpdate ",String.valueOf(witchWidgetUpdate));
-               // Log.e("witchWidgetUpdate ",String.valueOf(witchWidgetUpdate));
-                noteItems=databaseManager.getItems(databaseManager.queryItemByWidgetId(mWidgetId));
-                //updateWidgetPostion++;
-                //if(updateWidgetPostion==widgetNum)
-                //{
-                  //  updateWidgetPostion=0;
-                   isReboot=false;
-                //}
+                // Log.e("witchWidgetUpdate ",String.valueOf(witchWidgetUpdate));
+                noteItems = databaseManager.getItems(databaseManager.queryItemByWidgetId(mWidgetId));
+                isReboot = false;
             }
             remoteViews.setTextViewText(R.id.note_title, noteItems.get(position).getTitle());
             remoteViews.setTextViewText(R.id.note_content, noteItems.get(position).getContent());
@@ -124,8 +110,6 @@ public class AdapterViewFlipperService extends RemoteViewsService {
         }
 
         /**
-         *
-         *
          * @return The number of types of Views that will be returned by this factory.
          */
         @Override
@@ -134,8 +118,6 @@ public class AdapterViewFlipperService extends RemoteViewsService {
         }
 
         /**
-         *
-         *
          * @return True if the same id always refers to the same object.
          */
         @Override
@@ -149,16 +131,16 @@ public class AdapterViewFlipperService extends RemoteViewsService {
          */
         @Override
         public void onCreate() {
-            Log.e(TAG,"onCreatedebug");
+            Log.e(TAG, "onCreatedebug");
             Log.e(TAG, Utils.dateToString(new Date(System.currentTimeMillis())));
-                for(int i=0;i<pagesCount;i++){
-                    NoteItem noteItem=new NoteItem("喂！我是标题");
-                    noteItem.setContent("小提示：可通过底部左右箭头翻页！");
-                    noteItem.setPageId(i);
-                    noteItem.setWidgetId(0);
-                    noteItem.setWritingDate(Utils.dateToString(new Date(System.currentTimeMillis())));
-                    noteItems.add(noteItem);
-                    Log.d(TAG,noteItems.get(i).getContent());
+            for (int i = 0; i < pagesCount; i++) {
+                NoteItem noteItem = new NoteItem("喂！我是标题");
+                noteItem.setContent("小提示：可通过底部左右箭头翻页！");
+                noteItem.setPageId(i);
+                noteItem.setWidgetId(0);
+                noteItem.setWritingDate(Utils.dateToString(new Date(System.currentTimeMillis())));
+                noteItems.add(noteItem);
+                Log.d(TAG, noteItems.get(i).getContent());
             }
         }
 
@@ -173,22 +155,22 @@ public class AdapterViewFlipperService extends RemoteViewsService {
          */
         @Override
         public void onDataSetChanged() {
-            Log.e(TAG,"onDataSetChanged");
+            Log.e(TAG, "onDataSetChanged");
             //当某一个widget的某一页有改变时，该页的changedFlag状态会改变，通过查询该Flag就可找出要更新的widget
-            NoteItem noteItem=databaseManager.getItem(databaseManager.queryChangedItem());
-            if(noteItem!=null) {
+            NoteItem noteItem = databaseManager.getItem(databaseManager.queryChangedItem());
+            if (noteItem != null) {
                 noteItems = databaseManager.getItems(databaseManager.queryItemByWidgetId(noteItem.getWidgetId()));
                 Log.d(TAG, "noteItems length" + noteItems.size());
                 databaseManager.changedFlagToFalse();
             } else {
-                Log.e(TAG,"onDataSetChanged "+String.valueOf(mWidgetId));
-                isReboot=true;
+                Log.e(TAG, "onDataSetChanged " + String.valueOf(mWidgetId));
+                isReboot = true;
 
             }
             //for(int i=0;i<pagesCount;i++){
-              //  noteItems.set(i,databaseManager.getItem(databaseManager.queryItem(i)));
-             //   Log.d(TAG,noteItems.get(i).getContent());
-           // }
+            //  noteItems.set(i,databaseManager.getItem(databaseManager.queryItem(i)));
+            //   Log.d(TAG,noteItems.get(i).getContent());
+            // }
         }
 
         /**
@@ -197,10 +179,11 @@ public class AdapterViewFlipperService extends RemoteViewsService {
          */
         @Override
         public void onDestroy() {
-            Log.i(TAG,"onDestroy");
+            Log.i(TAG, "onDestroy");
             databaseManager.closeDB();
         }
     }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return Service.START_REDELIVER_INTENT;
