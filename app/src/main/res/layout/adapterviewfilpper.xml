@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/note_shape">
-
-    <EditText
-        android:id="@+id/edit_note_title"
-        android:layout_width="match_parent"
-        android:layout_height="50sp"
-        android:text="title"
-        android:gravity="center_horizontal|center_vertical"
-        android:background="@color/edit_note_title_color"
-        android:textSize="22sp"
-        android:textColor="@color/note_text_color"/>
-
+    android:background="@drawable/note_shape"
+    android:orientation="vertical">
+    <!--AdapterViewFlipper中具体的内容会通过remoteview返回给widget，所以此处显示的是空白-->
     <AdapterViewFlipper
         android:id="@+id/page_flipper"
         android:layout_width="wrap_content"
@@ -31,53 +21,53 @@
         android:layout_weight="0.02">
 
         <TextView
-            android:text="@string/left_right_dot"
+            android:id="@+id/left_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/current_page"
             android:layout_marginEnd="25dp"
-            android:textSize="4sp"
-            android:textColor="@color/note_text_color"
-            android:id="@+id/left_point" />
-
-        <TextView
-            android:text="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/current_page"
-            android:textColor="@color/note_text_color"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
+            android:layout_toStartOf="@+id/current_page"
             android:text="@string/left_right_dot"
+            android:textColor="@color/note_text_color"
+            android:textSize="4sp" />
+
+        <TextView
+            android:id="@+id/current_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:id="@+id/right_point"
-            android:textColor="@color/note_text_color"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="4sp"
-            android:layout_toEndOf="@+id/current_page"/>
+            android:text="1"
+            android:textColor="@color/note_text_color" />
+
+        <TextView
+            android:id="@+id/right_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:layout_toEndOf="@+id/current_page"
+            android:text="@string/left_right_dot"
+            android:textColor="@color/note_text_color"
+            android:textSize="4sp" />
 
         <ImageButton
             android:id="@+id/previous"
-            android:background="@drawable/ic_chevron_left_black_24dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="20dp"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginStart="20dp"
+            android:background="@drawable/ic_chevron_left_black_24dp" />
 
         <ImageButton
             android:id="@+id/next"
-            android:background="@drawable/ic_chevron_right_black_24dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignTop="@+id/previous"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp" />
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_chevron_right_black_24dp" />
 
     </RelativeLayout>
 

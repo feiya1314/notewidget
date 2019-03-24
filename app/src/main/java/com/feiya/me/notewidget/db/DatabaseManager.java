@@ -9,20 +9,33 @@ import android.util.Log;
 import com.feiya.me.notewidget.Constant;
 import com.feiya.me.notewidget.model.NoteItem;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by feiya on 2016/9/27.
  */
 
-public class DatabaseManager {
+public class DatabaseManager implements Closeable {
     private static final String TAG = DatabaseManager.class.getSimpleName();
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
+    private static DatabaseManager databaseManager;
 
-    public DatabaseManager(Context context) {
+
+    private DatabaseManager(Context context) {
         dbHelper = new DatabaseHelper(context);
         db = dbHelper.getWritableDatabase();
+    }
+
+    public static DatabaseManager getInstance(Context context) {
+        synchronized (DatabaseManager.class) {
+            if (databaseManager == null) {
+                databaseManager = new DatabaseManager(context);
+            }
+        }
+        return databaseManager;
     }
 
     /**
@@ -196,8 +209,10 @@ public class DatabaseManager {
         return getItem(queryTopPageItem(widgetId)).getPageId();
     }
 
-    public void closeDB() {
+    @Override
+    public synchronized void close(){
         Log.i(TAG, "closeDB");
-        db.close();
+        //没有必要关闭，内核会去处理
+        //db.close();
     }
 }

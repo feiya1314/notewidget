@@ -1,7 +1,5 @@
 package com.feiya.me.notewidget.model;
 
-import java.util.Date;
-
 /**
  * Created by feiya on 2016/9/17.
  */
@@ -11,17 +9,19 @@ public class NoteItem {
     private String writingDate;
     private String title;
     private int pageId;
-    private int favorite=0;
+    private int favorite = 0;
     private int widgetId;
-    private int changedFlag=0;
+    private int changedFlag = 0;
 
 
-    public NoteItem(){
+    public NoteItem() {
 
     }
-    public NoteItem(String title){
-        this.title=title;
+
+    public NoteItem(String title) {
+        this.title = title;
     }
+
     public String getTitle() {
         return title;
     }
@@ -45,7 +45,8 @@ public class NoteItem {
     public void setWritingDate(String writingDate) {
         this.writingDate = writingDate;
     }
-    public int getPageId(){
+
+    public int getPageId() {
         return pageId;
     }
 
@@ -53,19 +54,19 @@ public class NoteItem {
         this.pageId = id;
     }
 
-    public void setFavorite(int favorite){
-        this.favorite=favorite;
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
     }
 
     public int getFavorite() {
         return favorite;
     }
 
-    public void setWidgetId(int widgetId){
-        this.widgetId=widgetId;
+    public void setWidgetId(int widgetId) {
+        this.widgetId = widgetId;
     }
 
-    public int getWidgetId(){
+    public int getWidgetId() {
         return this.widgetId;
     }
 

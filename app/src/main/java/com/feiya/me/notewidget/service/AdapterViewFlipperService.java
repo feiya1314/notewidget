@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.feiya.me.notewidget.NoteWidgetProvider;
+import com.feiya.me.notewidget.Constant;
 import com.feiya.me.notewidget.R;
 import com.feiya.me.notewidget.db.DatabaseManager;
 import com.feiya.me.notewidget.model.NoteItem;
@@ -42,8 +42,7 @@ public class AdapterViewFlipperService extends RemoteViewsService {
             mWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             Log.e("service widgetid ", String.valueOf(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 521)));
 
-            databaseManager = new DatabaseManager(mContext);
-
+            databaseManager = DatabaseManager.getInstance(context);
         }
 
         /**
@@ -101,7 +100,7 @@ public class AdapterViewFlipperService extends RemoteViewsService {
 
             Intent collectionIntent = new Intent();
             collectionIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            collectionIntent.putExtra(NoteWidgetProvider.COLLECTION_VIEW_EXTRA, position);
+            collectionIntent.putExtra(Constant.COLLECTION_VIEW_EXTRA, position);
 
             remoteViews.setOnClickFillInIntent(R.id.note_title, collectionIntent);
             remoteViews.setOnClickFillInIntent(R.id.note_content, collectionIntent);
@@ -180,7 +179,7 @@ public class AdapterViewFlipperService extends RemoteViewsService {
         @Override
         public void onDestroy() {
             Log.i(TAG, "onDestroy");
-            databaseManager.closeDB();
+            databaseManager.close();
         }
     }
 

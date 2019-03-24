@@ -18,6 +18,7 @@
         android:textStyle="bold"
         android:textSize="16sp"
         tools:text="page1"/>
+    <!--可以试试添加滚动属性  android:scrollbars="vertical" android:text="@string/big_text" -->
     <TextView
         android:id="@+id/note_content"
         android:layout_width="match_parent"

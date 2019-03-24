@@ -14,21 +14,21 @@ import android.widget.TextView;
 
 import com.feiya.me.notewidget.R;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView textView=(TextView)findViewById(R.id.testTitle) ;
+        TextView textView = (TextView) findViewById(R.id.testTitle);
         textView.setMovementMethod(new ScrollingMovementMethod());
         setSupportActionBar(toolbar);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.app_bar_menu,menu);
+        getMenuInflater().inflate(R.menu.app_bar_menu, menu);
         return true;
     }
 

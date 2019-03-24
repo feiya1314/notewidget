@@ -22,72 +22,66 @@ import java.util.Date;
  */
 public class NoteWidgetProvider extends AppWidgetProvider {
 
-    private static final String TAG=NoteWidgetProvider.class.getSimpleName();
+    private static final String TAG = NoteWidgetProvider.class.getSimpleName();
 
-    public static final String NEXT_ACTION="com.feiya.me.notewidget.NEXT_ACTION";
-    public static final String PREVIOUS_ACTION="com.feiya.me.notewidget.PREVIOUS_ACTION";
-    public static final String COLLECTION_VIEW_ACTION="com.feiya.me.notewidget.COLLECTION_VIEW_ACTION";
-    public static final String COLLECTION_VIEW_EXTRA="com.feiya.me.notewidget.COLLECTION_VIEW_EXTRA";
-    public static final String PAGE_ID="com.feiya.me.notewidget.PAGE_ID";
-    public static final String DATA_CHANGED_ACTION="com.feiya.me.notewidget.DATA_CHANGED_ACTION";
-
-    private int pagesCount=10;
+    private int pagesCount = 10;
 
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.e(TAG,"Provider onUpdate");
-        Log.e(TAG,"update appwidgetIds "+appWidgetIds.length);
-        Log.e(TAG,"update appwidgetIds0 "+appWidgetIds[0]);
+        Log.e(TAG, "Provider onUpdate");
+        Log.e(TAG, "update appwidgetIds " + appWidgetIds.length);
+        Log.e(TAG, "update appwidgetIds0 " + appWidgetIds[0]);
 
 
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
 
-            initWidgetDatabase(context,appWidgetManager,appWidgetId);
+            initWidgetDatabase(context, appWidgetManager, appWidgetId);
 
-            RemoteViews remoteViews=new RemoteViews(context.getPackageName(),R.layout.adapterviewfilpper);
-            Intent viewFlipperServiceIntent=new Intent(context, AdapterViewFlipperService.class);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.adapterviewfilpper);
+            Intent viewFlipperServiceIntent = new Intent(context, AdapterViewFlipperService.class);
             viewFlipperServiceIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            viewFlipperServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
-            remoteViews.setRemoteAdapter(R.id.page_flipper,viewFlipperServiceIntent);
+            viewFlipperServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            remoteViews.setRemoteAdapter(R.id.page_flipper, viewFlipperServiceIntent);
 
-            Intent nextIntent=new Intent(context,NoteWidgetProvider.class);
+            Intent nextIntent = new Intent(context, NoteWidgetProvider.class);
             nextIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            nextIntent.setAction(NEXT_ACTION);
+            nextIntent.setAction(Constant.NEXT_ACTION);
 
             nextIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            PendingIntent btnPendingIntent=PendingIntent.getBroadcast(context,appWidgetId,nextIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.next,btnPendingIntent);
+            PendingIntent btnPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.next, btnPendingIntent);
 
-            Intent previousIntent=new Intent();
-            previousIntent.setAction(PREVIOUS_ACTION);
+            Intent previousIntent = new Intent();
+            previousIntent.setAction(Constant.PREVIOUS_ACTION);
             previousIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             previousIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             //如果将getBroadcast的参数request简单设置为0的话，会同时更新桌面上的所有widget，如果只更新特定的一个需要传入该widget的ID，appWidgetId
-            PendingIntent prePendingIntent=PendingIntent.getBroadcast(context,appWidgetId,previousIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.previous,prePendingIntent);
+            PendingIntent prePendingIntent = PendingIntent.getBroadcast(context, appWidgetId, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.previous, prePendingIntent);
 
-            Intent flipperIntent=new Intent();
-            flipperIntent.setComponent(new ComponentName(context,NoteWidgetProvider.class));
-            flipperIntent.setAction(COLLECTION_VIEW_ACTION);
+            Intent flipperIntent = new Intent();
+            flipperIntent.setComponent(new ComponentName(context, NoteWidgetProvider.class));
+            flipperIntent.setAction(Constant.COLLECTION_VIEW_ACTION);
             flipperIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            flipperIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
+            flipperIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
-            PendingIntent filpperPendingIntent=PendingIntent.getBroadcast(context,appWidgetId,flipperIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent filpperPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, flipperIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            remoteViews.setPendingIntentTemplate(R.id.page_flipper,filpperPendingIntent);
+            remoteViews.setPendingIntentTemplate(R.id.page_flipper, filpperPendingIntent);
             //ComponentName componentName=new ComponentName(context,NoteWidgetProvider.class);
             // appWidgetManager.updateAppWidget(componentName,remoteViews);
 
-            appWidgetManager.updateAppWidget(appWidgetId,remoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
-    private void initListener(Context context,AppWidgetManager appWidgetManager){
 
-        int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(context,NoteWidgetProvider.class));
-        Log.i(TAG,"initListener widgetIdCount "+appWidgetIds.length);
+    private void initListener(Context context, AppWidgetManager appWidgetManager) {
+
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, NoteWidgetProvider.class));
+        Log.i(TAG, "initListener widgetIdCount " + appWidgetIds.length);
         // ArrayList<Integer> widgetIdList=new ArrayList<Integer>();
         // for (int i=0;i<appWidgetIds.length;i++) {
         //   widgetIdList.add(appWidgetIds[i]);
@@ -98,29 +92,29 @@ public class NoteWidgetProvider extends AppWidgetProvider {
             Intent viewFlipperServiceIntent = new Intent(context, AdapterViewFlipperService.class);
             //viewFlipperServiceIntent.putIntegerArrayListExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,widgetIdList);
             //在onReceive中放置appWidgetIds，才可以在AdapterViewFlipperService中获取到，不知道为什么？
-            viewFlipperServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
+            viewFlipperServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             viewFlipperServiceIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             remoteViews.setRemoteAdapter(R.id.page_flipper, viewFlipperServiceIntent);
 
-            Intent nextIntent = new Intent(context,NoteWidgetProvider.class);
-            nextIntent.setAction(NEXT_ACTION);
+            Intent nextIntent = new Intent(context, NoteWidgetProvider.class);
+            nextIntent.setAction(Constant.NEXT_ACTION);
             nextIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             nextIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             PendingIntent btnPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.next, btnPendingIntent);
 
             Intent previousIntent = new Intent();
-            previousIntent.setAction(PREVIOUS_ACTION);
+            previousIntent.setAction(Constant.PREVIOUS_ACTION);
             previousIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             previousIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             PendingIntent prePendingIntent = PendingIntent.getBroadcast(context, appWidgetId, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.previous, prePendingIntent);
 
             Intent flipperIntent = new Intent();
-            flipperIntent.setAction(COLLECTION_VIEW_ACTION);
+            flipperIntent.setAction(Constant.COLLECTION_VIEW_ACTION);
             flipperIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             flipperIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            Log.d(TAG,"update collection putExtra widgetId"+appWidgetId);
+            Log.d(TAG, "update collection putExtra widgetId" + appWidgetId);
 
             PendingIntent filpperPendingIntent = PendingIntent.getBroadcast(context, appWidgetId, flipperIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -131,32 +125,34 @@ public class NoteWidgetProvider extends AppWidgetProvider {
 
 
     }
+
     /**
      * Implements { BroadcastReceiver#onReceive} to dispatch calls to the various
      * other methods on AppWidgetProvider.
      * 接收窗口小部件点击时发送的广播
+     *
      * @param context The Context in which the receiver is running.
      * @param intent  The Intent being received.
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action=intent.getAction();
+        String action = intent.getAction();
         int pageId;
         int widgetId;
-        DatabaseManager databaseManager=new DatabaseManager(context);
-        AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(context);
-        initListener(context,appWidgetManager);
-        widgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID);
-        Log.e(TAG,"provider onReceive "+action);
-        if(action.equals(NEXT_ACTION)){
-            int topPageItemId =getTopPageId(context,databaseManager,widgetId)+1;
-            if(topPageItemId==10){
-                topPageItemId=1;
-            }else {
+        DatabaseManager databaseManager = DatabaseManager.getInstance(context);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        initListener(context, appWidgetManager);
+        widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        Log.e(TAG, "provider onReceive " + action);
+        if (action.equals(Constant.NEXT_ACTION)) {
+            int topPageItemId = getTopPageId(context, databaseManager, widgetId) + 1;
+            if (topPageItemId == 10) {
+                topPageItemId = 1;
+            } else {
                 topPageItemId++;
             }
 
-            RemoteViews rv=new RemoteViews(context.getPackageName(),R.layout.adapterviewfilpper);
+            RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.adapterviewfilpper);
             rv.showNext(R.id.page_flipper);
             rv.setTextViewText(R.id.current_page, String.valueOf(topPageItemId));
             //下面这种写法，如果有多个widget实例时，会同时更新所有的widget，页码都会增加
@@ -165,84 +161,84 @@ public class NoteWidgetProvider extends AppWidgetProvider {
 
             //下面这种写法会部分更新，即只更新id为AppWidgetManager.EXTRA_APPWIDGET_ID的widget实例
             appWidgetManager.partiallyUpdateAppWidget(
-                    intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID),rv);
-            databaseManager.topPageToTrue(widgetId,topPageItemId-1);
+                    intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), rv);
+            databaseManager.topPageToTrue(widgetId, topPageItemId - 1);
         }
-        if(action.equals(PREVIOUS_ACTION)){
-            int topPageItemId =getTopPageId(context,databaseManager,widgetId)+1;
-            if(topPageItemId==1){
-                topPageItemId=10;
-            }else {
+        if (action.equals(Constant.PREVIOUS_ACTION)) {
+            int topPageItemId = getTopPageId(context, databaseManager, widgetId) + 1;
+            if (topPageItemId == 1) {
+                topPageItemId = 10;
+            } else {
                 topPageItemId--;
             }
-            RemoteViews preRemoteViews=new RemoteViews(context.getPackageName(),R.layout.adapterviewfilpper);
+            RemoteViews preRemoteViews = new RemoteViews(context.getPackageName(), R.layout.adapterviewfilpper);
             preRemoteViews.showPrevious(R.id.page_flipper);
             preRemoteViews.setTextViewText(R.id.current_page, String.valueOf(topPageItemId));
             appWidgetManager.partiallyUpdateAppWidget(
-                    intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID),preRemoteViews);
-            databaseManager.topPageToTrue(widgetId,topPageItemId-1);
+                    intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID), preRemoteViews);
+            databaseManager.topPageToTrue(widgetId, topPageItemId - 1);
         }
-        if(action.equals(COLLECTION_VIEW_ACTION)){
+        if (action.equals(Constant.COLLECTION_VIEW_ACTION)) {
 
-            pageId=intent.getIntExtra(COLLECTION_VIEW_EXTRA,0);
-            widgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID);
-            Log.e(TAG,"receive collection action widgetId "+widgetId);
+            pageId = intent.getIntExtra(Constant.COLLECTION_VIEW_EXTRA, 0);
+            widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            Log.e(TAG, "receive collection action widgetId " + widgetId);
 
-            Intent startActivity=new Intent(context, EditNoteActivity.class);
-            startActivity.putExtra(PAGE_ID,pageId);
-            startActivity.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetId);
+            Intent startActivity = new Intent(context, EditNoteActivity.class);
+            startActivity.putExtra(Constant.PAGE_ID, pageId);
+            startActivity.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
             //由于不是在activity中启动另一个activity，而是由context启动，需要设置FLAG_ACTIVITY_NEW_TASK标志
             //表明启动一个activity
             startActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(startActivity);
         }
-        if(action.equals(DATA_CHANGED_ACTION)){
-            Log.d(TAG,"Action _appwidget_update");
-            pageId=intent.getIntExtra(NoteWidgetProvider.PAGE_ID,0);
-            widgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,AppWidgetManager.INVALID_APPWIDGET_ID);
+        if (action.equals(Constant.DATA_CHANGED_ACTION)) {
+            Log.d(TAG, "Action _appwidget_update");
+            pageId = intent.getIntExtra(Constant.PAGE_ID, 0);
+            widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             //ComponentName componentName=new ComponentName(context,NoteWidgetProvider.class);
-
-
 
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.adapterviewfilpper);
 
             Intent viewFlipperServiceIntent = new Intent(context, AdapterViewFlipperService.class);
-            viewFlipperServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,widgetId);
+            viewFlipperServiceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
             viewFlipperServiceIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             remoteViews.setRemoteAdapter(R.id.page_flipper, viewFlipperServiceIntent);
 
-            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId,R.id.page_flipper);
+            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.page_flipper);
 
-            appWidgetManager.updateAppWidget(widgetId,remoteViews);
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
-        if(action.equals(Intent.ACTION_SHUTDOWN)){
-            Log.d(TAG,"shutdown");
+        if (action.equals(Intent.ACTION_SHUTDOWN)) {
+            Log.d(TAG, "shutdown");
             databaseManager.topPageInit();
         }
         super.onReceive(context, intent);
     }
-    private int getTopPageId(Context context,DatabaseManager databaseManager,int widgetId){
+
+    private int getTopPageId(Context context, DatabaseManager databaseManager, int widgetId) {
         NoteItem noteItem;
-        noteItem=databaseManager.getItem(databaseManager.queryTopPageItem(widgetId));
-        Log.e(TAG,"topPageId "+noteItem.getPageId());
+        noteItem = databaseManager.getItem(databaseManager.queryTopPageItem(widgetId));
+        Log.e(TAG, "topPageId " + noteItem.getPageId());
         databaseManager.topPageToFalse(widgetId);
         return noteItem.getPageId();
     }
-    private void initWidgetDatabase(Context context,AppWidgetManager appWidgetManager,int widgetId){
-        DatabaseManager databaseManager=new DatabaseManager(context);
-        if(databaseManager.queryItemByWidgetId(widgetId).getCount()!=0){
-            Log.e(TAG,"该widget已经生成过啦");
-            int topPage=databaseManager.getTopPageId(widgetId);
-            RemoteViews showTopPage=new RemoteViews(context.getPackageName(),R.layout.adapterviewfilpper);
-            showTopPage.setDisplayedChild(R.id.page_flipper,topPage);
+
+    private void initWidgetDatabase(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+        DatabaseManager databaseManager = DatabaseManager.getInstance(context);
+        if (databaseManager.queryItemByWidgetId(widgetId).getCount() != 0) {
+            Log.e(TAG, "该widget已经生成过啦");
+            int topPage = databaseManager.getTopPageId(widgetId);
+            RemoteViews showTopPage = new RemoteViews(context.getPackageName(), R.layout.adapterviewfilpper);
+            showTopPage.setDisplayedChild(R.id.page_flipper, topPage);
             //databaseManager.closeDB();
-        }else {
-            for(int i=0;i<10;i++){
-                NoteItem noteItem=new NoteItem("喂！我是标题");
+        } else {
+            for (int i = 0; i < 10; i++) {
+                NoteItem noteItem = new NoteItem("喂！我是标题");
                 noteItem.setContent("小提示：可通过底部左右箭头翻页！");
                 noteItem.setPageId(i);
-                if (i==0){
+                if (i == 0) {
                     noteItem.setFavorite(1);
                 }
                 noteItem.setWidgetId(widgetId);
@@ -250,11 +246,11 @@ public class NoteWidgetProvider extends AppWidgetProvider {
                 databaseManager.addItem(noteItem);
                 //databaseManager.closeDB();
             }
-            databaseManager.changedFlagToTrue(widgetId,0);
-            databaseManager.closeDB();
-            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId,R.id.page_flipper);
+            databaseManager.changedFlagToTrue(widgetId, 0);
+            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.page_flipper);
         }
     }
+
     // private void updateChangedItem(Context context,int widgetId){
     // DatabaseManager databaseManager=new DatabaseManager(context);
     // }
@@ -270,10 +266,10 @@ public class NoteWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        Log.e(TAG,"ondeleted"+appWidgetIds.length);
-        DatabaseManager databaseManager=new DatabaseManager(context);
-        for(int appwidgetId : appWidgetIds){
-            Log.e(TAG,"delete widgetId "+appwidgetId);
+        Log.e(TAG, "ondeleted" + appWidgetIds.length);
+        DatabaseManager databaseManager = DatabaseManager.getInstance(context);
+        for (int appwidgetId : appWidgetIds) {
+            Log.e(TAG, "delete widgetId " + appwidgetId);
             databaseManager.deleteItemsByWidgetId(appwidgetId);
         }
         super.onDeleted(context, appWidgetIds);
