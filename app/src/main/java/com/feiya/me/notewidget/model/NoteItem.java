@@ -12,10 +12,19 @@ public class NoteItem {
     private int favorite = 0;
     private int widgetId;
     private int changedFlag = 0;
+    private int deleted = 0;
 
 
     public NoteItem() {
 
+    }
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
     }
 
     public NoteItem(String title) {

@@ -23,16 +23,13 @@ import java.util.Date;
 public class NoteWidgetProvider extends AppWidgetProvider {
 
     private static final String TAG = NoteWidgetProvider.class.getSimpleName();
-
     private int pagesCount = 10;
-
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.e(TAG, "Provider onUpdate");
         Log.e(TAG, "update appwidgetIds " + appWidgetIds.length);
         Log.e(TAG, "update appwidgetIds0 " + appWidgetIds[0]);
-
 
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
@@ -146,11 +143,8 @@ public class NoteWidgetProvider extends AppWidgetProvider {
         Log.e(TAG, "provider onReceive " + action);
         if (action.equals(Constant.NEXT_ACTION)) {
             int topPageItemId = getTopPageId(context, databaseManager, widgetId) + 1;
-            if (topPageItemId == 10) {
-                topPageItemId = 1;
-            } else {
-                topPageItemId++;
-            }
+
+            topPageItemId = topPageItemId == pagesCount ? 1 : topPageItemId + 1;
 
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.adapterviewfilpper);
             rv.showNext(R.id.page_flipper);
@@ -228,42 +222,62 @@ public class NoteWidgetProvider extends AppWidgetProvider {
     private void initWidgetDatabase(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         DatabaseManager databaseManager = DatabaseManager.getInstance(context);
         if (databaseManager.queryItemByWidgetId(widgetId).getCount() != 0) {
-            Log.e(TAG, "该widget已经生成过啦");
+            Log.i(TAG, "该widget已经生成过啦");
             int topPage = databaseManager.getTopPageId(widgetId);
             RemoteViews showTopPage = new RemoteViews(context.getPackageName(), R.layout.adapterviewfilpper);
             showTopPage.setDisplayedChild(R.id.page_flipper, topPage);
-            //databaseManager.closeDB();
-        } else {
-            for (int i = 0; i < 10; i++) {
-                NoteItem noteItem = new NoteItem("喂！我是标题");
-                noteItem.setContent("小提示：可通过底部左右箭头翻页！");
-                noteItem.setPageId(i);
-                if (i == 0) {
-                    noteItem.setFavorite(1);
-                }
-                noteItem.setWidgetId(widgetId);
-                noteItem.setWritingDate(Utils.dateToString(new Date(System.currentTimeMillis())));
-                databaseManager.addItem(noteItem);
-                //databaseManager.closeDB();
-            }
-            databaseManager.changedFlagToTrue(widgetId, 0);
-            appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.page_flipper);
+
+            return;
         }
+
+        for (int i = 0; i < 10; i++) {
+            NoteItem noteItem = new NoteItem(Constant.INIT_NOTE_TITLE);
+            noteItem.setContent(Constant.INIT_NOTE_CONTENT);
+            noteItem.setPageId(i);
+            if (i == 0) {
+                noteItem.setFavorite(1);
+            }
+            noteItem.setWidgetId(widgetId);
+            noteItem.setWritingDate(Utils.dateToString(new Date(System.currentTimeMillis())));
+            databaseManager.addItem(noteItem);
+        }
+
+        databaseManager.changedFlagToTrue(widgetId, 0);
+        appWidgetManager.notifyAppWidgetViewDataChanged(widgetId, R.id.page_flipper);
+
     }
 
     // private void updateChangedItem(Context context,int widgetId){
     // DatabaseManager databaseManager=new DatabaseManager(context);
     // }
+
+    /**
+     * 第一个 widget被添加时调用
+     *
+     * @param context
+     */
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        Log.i(TAG, "note widget onEnabled");
     }
 
+    /**
+     * 最后一个 widget被删除时调用
+     *
+     * @param context
+     */
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+        Log.i(TAG, "note widget onDisabled");
     }
 
+    /**
+     * widget被删除时调用
+     *
+     * @param context
+     */
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         Log.e(TAG, "ondeleted" + appWidgetIds.length);
@@ -272,7 +286,6 @@ public class NoteWidgetProvider extends AppWidgetProvider {
             Log.e(TAG, "delete widgetId " + appwidgetId);
             databaseManager.deleteItemsByWidgetId(appwidgetId);
         }
-        super.onDeleted(context, appWidgetIds);
     }
 
 }

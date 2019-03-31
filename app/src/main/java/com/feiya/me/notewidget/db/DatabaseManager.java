@@ -21,8 +21,7 @@ public class DatabaseManager implements Closeable {
     private static final String TAG = DatabaseManager.class.getSimpleName();
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
-    private static DatabaseManager databaseManager;
-
+    private static volatile DatabaseManager databaseManager;
 
     private DatabaseManager(Context context) {
         dbHelper = new DatabaseHelper(context);
@@ -30,9 +29,11 @@ public class DatabaseManager implements Closeable {
     }
 
     public static DatabaseManager getInstance(Context context) {
-        synchronized (DatabaseManager.class) {
-            if (databaseManager == null) {
-                databaseManager = new DatabaseManager(context);
+        if (databaseManager == null) {
+            synchronized (DatabaseManager.class) {
+                if (databaseManager == null) {
+                    databaseManager = new DatabaseManager(context);
+                }
             }
         }
         return databaseManager;
@@ -45,30 +46,17 @@ public class DatabaseManager implements Closeable {
     public void addItem(NoteItem noteItem) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", noteItem.getTitle());
-        Log.d(TAG, "title " + noteItem.getTitle());
-
         contentValues.put("content", noteItem.getContent());
-        Log.d(TAG, "content " + noteItem.getContent());
-
         contentValues.put("widgetId", noteItem.getWidgetId());
-
         contentValues.put("changedFlag", noteItem.getChangedFlag());
-
         contentValues.put("pageId", noteItem.getPageId());
-        Log.d(TAG, "pageId " + noteItem.getPageId());
-
         contentValues.put("writingDate", noteItem.getWritingDate());
-        Log.d(TAG, "writingDate " + noteItem.getWritingDate());
-
         contentValues.put("favorite", noteItem.getFavorite());
-        Log.d(TAG, "favorite " + noteItem.getFavorite());
+        contentValues.put("deleted", noteItem.getDeleted());
 
         db.insert(Constant.TABLE_NAME, null, contentValues);
     }
 
-    /**
-     *
-     */
     public void updateItem(NoteItem noteItem, int widgetId, int pageId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", noteItem.getTitle());
@@ -125,7 +113,7 @@ public class DatabaseManager implements Closeable {
     }
 
     public ArrayList<NoteItem> getItems(Cursor cursor) {
-        ArrayList<NoteItem> noteItems = new ArrayList<NoteItem>();
+        ArrayList<NoteItem> noteItems = new ArrayList<>();
         if (cursor.getCount() == 0) {
             Log.e(TAG, "getItems :Cursor's count is 0");
         } else {
@@ -204,13 +192,12 @@ public class DatabaseManager implements Closeable {
         return db.rawQuery(sql, null);
     }
 
-
     public int getTopPageId(int widgetId) {
         return getItem(queryTopPageItem(widgetId)).getPageId();
     }
 
     @Override
-    public synchronized void close(){
+    public synchronized void close() {
         Log.i(TAG, "closeDB");
         //没有必要关闭，内核会去处理
         //db.close();
